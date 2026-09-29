@@ -1,27 +1,31 @@
 # Preorder Request
 
-Mobile-first customer preorder request form.
+Mobile-first customer preorder request form backed by Supabase.
 
-## V1 scope
+## V1
 - Full name, phone, optional email
 - Destination address
 - Total item count and optional estimated weight
 - Up to 5 item photos (JPG/PNG/WebP, max 5 MB each)
-- Client-side validation and mobile photo-picker UX
-- Human-readable request reference after successful submission
-- Backend-ready integration boundary
+- Client + server validation
+- Private photo storage
+- Server-generated request references (`PR-000001`, ...)
+- Success/reference state after submission
 
 ## Architecture
-Static HTML/CSS/JS frontend. The intended backend is a dedicated Supabase project using Postgres + Storage. Submission should go through a controlled server/API boundary so database writes, request-number generation and file handling can be validated server-side rather than trusting the browser.
+Static HTML/CSS/JS frontend → Supabase Edge Function → Postgres + private Storage.
 
-## Supabase phase
-When the dedicated free Supabase project is available:
-1. Create `preorder_requests` and `preorder_photos` tables.
-2. Create a private `preorder-photos` Storage bucket.
-3. Add RLS/policies so public users cannot enumerate or read requests/photos.
-4. Add the submission API/Edge Function and server-side validation.
-5. Generate request numbers server-side (for example `PR-000001`).
-6. Connect `config.js` to the deployed submission endpoint.
-7. Test create + multi-photo upload end-to-end.
+The browser has no privileged database credential. `submit-preorder` validates the request, creates the database record, uploads photos with the server-side service role, records photo metadata, and rolls back the request/uploads if photo processing fails.
 
-Do not commit Supabase service-role credentials to this repository.
+## Security
+- RLS enabled on `preorder_requests` and `preorder_photos` with no public access policies (deny-by-default).
+- `preorder-photos` is private, limited to JPG/PNG/WebP and 5 MB per object.
+- Edge Function enforces field, item-count, weight, photo-count/type/size and overall request-size validation.
+- Service-role credentials remain server-side only.
+
+## Backend
+Supabase project: `preorder-request` (`zxyqnfhvnzktadictfbe`)
+
+Edge Function: `submit-preorder`
+
+Schema changes are tracked in Supabase migrations and the deployed Edge Function source is mirrored under `supabase/functions/submit-preorder/`.
