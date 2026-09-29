@@ -1,7 +1,4 @@
-// Public browser configuration only. Never put a Supabase service-role key here.
-// When the dedicated Supabase project is ready, add its project URL and anon/publishable key.
+// Public browser configuration only. No privileged Supabase credentials belong here.
 window.PREORDER_CONFIG = {
-  supabaseUrl: "",
-  supabaseAnonKey: "",
-  submitEndpoint: ""
+  submitEndpoint: "https://zxyqnfhvnzktadictfbe.supabase.co/functions/v1/submit-preorder"
 };
