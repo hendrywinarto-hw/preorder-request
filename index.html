@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#faf9f6" />
+  <title>Preorder Request</title>
+  <meta name="description" content="Submit your preorder request and item details." />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="form-card" aria-labelledby="page-title">
+      <header class="hero">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div>
+          <p class="eyebrow">PREORDER SERVICE</p>
+          <h1 id="page-title">Request a preorder</h1>
+          <p class="intro">Tell us what you need. We’ll review your request and contact you to confirm the details.</p>
+        </div>
+      </header>
+
+      <form id="preorder-form" novalidate>
+        <section class="form-section" aria-labelledby="contact-title">
+          <div class="section-heading"><span>1</span><div><h2 id="contact-title">Your details</h2><p>How we can contact you about this request.</p></div></div>
+          <div class="field-grid">
+            <label class="field full"><span>Full name <b>*</b></span><input id="name" name="name" type="text" autocomplete="name" maxlength="100" placeholder="Your full name" required /><small class="error" data-error-for="name"></small></label>
+            <label class="field"><span>Phone number <b>*</b></span><input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="30" inputmode="tel" placeholder="e.g. +62 812 3456 7890" required /><small class="error" data-error-for="phone"></small></label>
+            <label class="field"><span>Email <em>Optional</em></span><input id="email" name="email" type="email" autocomplete="email" maxlength="150" inputmode="email" placeholder="you@example.com" /><small class="error" data-error-for="email"></small></label>
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="delivery-title">
+          <div class="section-heading"><span>2</span><div><h2 id="delivery-title">Destination</h2><p>Where the items will ultimately be delivered.</p></div></div>
+          <div class="field-grid">
+            <label class="field full"><span>Destination address <b>*</b></span><textarea id="address" name="address" rows="3" autocomplete="street-address" maxlength="500" placeholder="Street, suburb/city, postcode and country" required></textarea><small class="error" data-error-for="address"></small></label>
+          </div>
+        </section>
+
+        <section class="form-section" aria-labelledby="items-title">
+          <div class="section-heading"><span>3</span><div><h2 id="items-title">Your items</h2><p>An estimate is fine. We’ll confirm the final weight later.</p></div></div>
+          <div class="field-grid two-equal">
+            <label class="field"><span>Total items <b>*</b></span><div class="number-wrap"><button class="stepper" type="button" data-step="-1" aria-label="Decrease item count">−</button><input id="totalItems" name="totalItems" type="number" min="1" max="999" value="1" inputmode="numeric" required /><button class="stepper" type="button" data-step="1" aria-label="Increase item count">+</button></div><small class="error" data-error-for="totalItems"></small></label>
+            <label class="field"><span>Estimated total weight <em>Optional</em></span><div class="unit-input"><input id="totalKg" name="totalKg" type="number" min="0" max="9999" step="0.01" inputmode="decimal" placeholder="0.00" /><span>kg</span></div><small class="hint">Don't know yet? Leave it blank.</small><small class="error" data-error-for="totalKg"></small></label>
+          </div>
+
+          <div class="upload-block">
+            <div class="upload-copy"><span>Item photos <em>Optional</em></span><p>Add up to 5 photos or screenshots so we can identify your items.</p></div>
+            <input id="photos" name="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple hidden />
+            <button id="upload-button" class="upload-button" type="button"><span class="upload-icon">＋</span><span><strong>Add photos</strong><small>Camera or photo library · JPG, PNG, WebP</small></span></button>
+            <div id="photo-preview" class="photo-preview" aria-live="polite"></div>
+            <small class="error" data-error-for="photos"></small>
+          </div>
+        </section>
+
+        <div id="connection-note" class="connection-note"><strong>Preview mode</strong><span>Your form is ready. Submission will be enabled when the database connection is added.</span></div>
+        <button id="submit-button" class="primary-button" type="submit">Submit request</button>
+        <p class="privacy-note">Your details are used only to review and fulfil your preorder request.</p>
+      </form>
+
+      <section id="success-state" class="success-state" hidden aria-live="polite">
+        <div class="success-icon">✓</div><p class="eyebrow">REQUEST RECEIVED</p><h2>Thank you!</h2><p>We’ve received your preorder request. We’ll review the details and contact you to confirm the next steps.</p><div class="reference-box"><span>Request reference</span><strong id="reference-number">Pending</strong></div><button id="new-request" class="secondary-button" type="button">Submit another request</button>
+      </section>
+    </section>
+    <footer>Preorder Request</footer>
+  </main>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
