@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {estimateQuote} from '../ops/pricing.js';
+test('quote uses total line weight and per-unit cost with explicit rounding',()=>{assert.deepEqual(estimateQuote({cost:10,weightGrams:750,quantity:2,fee:20,markup:25,rounding:1,rate:11000}),{aud:45,shipping:20,billableKg:1,idr:495000});});
+test('missing inputs remain unknown instead of producing a zero quote',()=>{assert.throws(()=>estimateQuote({cost:'',weightGrams:750,quantity:2,fee:20,markup:25,rounding:1}));assert.equal(estimateQuote({cost:10,weightGrams:750,fee:20,markup:25,rounding:1,rate:''}).idr,null);});

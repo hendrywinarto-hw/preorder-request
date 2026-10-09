@@ -1,0 +1,1 @@
+{"name":"justtitip-operations","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","dev":"node scripts/dev.mjs"},"engines":{"node":">=22"}}

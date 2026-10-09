@@ -1,0 +1,6 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {scryptSync,createHmac} from 'node:crypto';import {session,loginCookie,checkPassword,sameOrigin} from '../lib/http.js';
+process.env.SESSION_SECRET='qa-only-session-secret';const salt='qa-salt';process.env.ADMIN_PASSWORD_HASH=salt+':'+scryptSync('qa-password',salt,64).toString('hex');
+test('sessions are signed, expiring and HttpOnly',()=>{const cookie=loginCookie();assert.match(cookie,/HttpOnly; Secure; SameSite=Strict/);assert.equal(session({headers:{cookie}}).user,'admin');assert.equal(session({headers:{cookie:cookie.replace('jt_session=','jt_session=x')}}),null);});
+test('expired signed session rejected',()=>{const b=Buffer.from(JSON.stringify({user:'admin',exp:1})).toString('base64url');const sig=createHmac('sha256',process.env.SESSION_SECRET).update(b).digest('base64url');assert.equal(session({headers:{cookie:'jt_session='+b+'.'+sig}}),null);});
+test('password verifier distinguishes invalid credentials',()=>{assert.equal(checkPassword('qa-password'),true);assert.equal(checkPassword('wrong'),false);});
+test('cross-origin writes are rejected',()=>{assert.equal(sameOrigin({headers:{origin:'https://evil.test',host:'app.test'}}),false);assert.equal(sameOrigin({headers:{origin:'https://app.test',host:'app.test'}}),true);assert.equal(sameOrigin({headers:{host:'app.test'}}),false);});

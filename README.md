@@ -1,5 +1,7 @@
 # Preorder Request
 
+The new **internal JustTitip order management workspace** is at `/ops/`. Its Google Sheets database, setup, validation and backup workflow are documented in [OPERATIONS.md](OPERATIONS.md). The customer request form below remains a separate existing workflow.
+
 Mobile-first customer preorder request form backed by Supabase.
 
 ## V1
